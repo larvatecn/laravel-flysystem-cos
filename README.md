@@ -8,7 +8,7 @@ This is a Flysystem adapter for the Tencent Cloud COS
 ## Installation
 
 ```bash
-composer require larva/laravel-flysystem-cos
+composer require larva/laravel-flysystem-cos -vv
 ```
 
 ## for Laravel
@@ -30,6 +30,7 @@ add config
 
 ```php
 'cos' => [
+    'driver' => 'cos',
     // 'endpoint' => getenv('COS_ENDPOINT'),//接入点，留空即可
     'region' => env('COS_REGION'),
     'credentials' => [
@@ -48,7 +49,7 @@ add config
     'proxy' => null,
     'prefix' => getenv('COS_PREFIX'),//前缀
     'encrypt'=> null,
-    'url'=>'CDN URL',
+    'url'=> null,//CDN URL 
     'cdn_key' => 'izDMqzld6U4AFQjg',
     'cdn_sign_type' => 'D'//A/B/C/D
 ],
