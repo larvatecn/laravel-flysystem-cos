@@ -16,7 +16,7 @@ class PutRemoteFileAs extends AbstractPlugin
      *
      * @return string
      */
-    public function getMethod()
+    public function getMethod(): string
     {
         return 'putRemoteFileAs';
     }
