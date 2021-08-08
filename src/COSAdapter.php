@@ -101,7 +101,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $newpath
      * @return bool
      */
-    public function rename($path, $newpath)
+    public function rename($path, $newpath): bool
     {
         if (!$this->copy($path, $newpath)) {
             return false;
@@ -116,10 +116,10 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $newpath
      * @return bool
      */
-    public function copy($path, $newpath)
+    public function copy($path, $newpath): bool
     {
         $object = $this->applyPathPrefix($path);
-        $newobject = $this->applyPathPrefix($newpath);
+        $newObject = $this->applyPathPrefix($newpath);
         try {
             $result = $this->client->headObject([
                 'Bucket' => $this->getBucket(),
@@ -127,7 +127,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
             ]);
             $this->client->copyObject([
                 'Bucket' => $this->getBucket(),
-                'Key' => $newobject,
+                'Key' => $newObject,
                 'CopySource' => $result['Location'],
             ]);
         } catch (ServiceResponseException $e) {
@@ -142,7 +142,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $path
      * @return bool
      */
-    public function delete($path)
+    public function delete($path): bool
     {
         $object = $this->applyPathPrefix($path);
         try {
@@ -162,7 +162,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $dirname
      * @return bool
      */
-    public function deleteDir($dirname)
+    public function deleteDir($dirname): bool
     {
         $object = $this->applyPathPrefix($dirname);
         try {
@@ -186,7 +186,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
     {
         $dir = $this->applyPathPrefix($dirname);
         try {
-            return $this->client->putObject([
+            $this->client->putObject([
                 'Bucket' => $this->getBucket(),
                 'Key' => $dir . '/',
                 'Body' => '',
@@ -223,9 +223,9 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * Check whether a file exists.
      *
      * @param string $path
-     * @return array|bool|null
+     * @return bool
      */
-    public function has($path)
+    public function has($path): bool
     {
         $object = $this->applyPathPrefix($path);
         try {
@@ -265,7 +265,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $path
      * @return string
      */
-    public function getUrl($path)
+    public function getUrl($path): string
     {
         $location = $this->applyPathPrefix($path);
         if (isset($this->config['url']) && !empty($this->config['url'])) {
@@ -279,24 +279,24 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
             if ($visibility && $visibility['visibility'] == 'private') {
                 return $this->getTemporaryUrl($path, Carbon::now()->addMinutes(5), []);
             }
-            $options = ['Scheme' => isset($this->config['scheme']) ? $this->config['scheme'] : 'http'];
+            $options = ['Scheme' => $this->config['scheme'] ?? 'http'];
             return $this->client->getObjectUrl($this->getBucket(), $location, 0, $options);
         }
     }
 
     /**
      * 获取文件临时访问路径
-     * @param $path
-     * @param $expiration
-     * @param $options
+     * @param string $path
+     * @param \DateTimeInterface $expiration
+     * @param array $options
      * @return string
      */
-    public function getTemporaryUrl($path, \DateTimeInterface $expiration, array $options = [])
+    public function getTemporaryUrl($path, \DateTimeInterface $expiration, array $options = []): string
     {
         $location = $this->applyPathPrefix($path);
         $options = array_merge(
             $options,
-            ['Scheme' => isset($this->config['scheme']) ? $this->config['scheme'] : 'http']
+            ['Scheme' => $this->config['scheme'] ?? 'http']
         );
         return $this->client->getObjectUrl($this->getBucket(), $location, $expiration, $options);
     }
@@ -308,7 +308,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param bool $recursive
      * @return array
      */
-    public function listContents($directory = '', $recursive = false)
+    public function listContents($directory = '', $recursive = false): array
     {
         $directory = $this->applyPathPrefix($directory);
         $list = [];
@@ -428,14 +428,14 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      * @param string $marker max return 1000 record, if record greater than 1000
      *                          you should set the next marker to get the full list
      *
-     * @return \GuzzleHttp\Command\Result|array
+     * @return array
      */
-    private function listObjects($directory = '', $recursive = false, $marker = '')
+    private function listObjects(string $directory = '', bool $recursive = false, $marker = ''): array
     {
         try {
             return $this->client->listObjects([
                 'Bucket' => $this->getBucket(),
-                'Prefix' => ((string)$directory === '') ? '' : ($directory . '/'),
+                'Prefix' => ($directory === '') ? '' : ($directory . '/'),
                 'Delimiter' => $recursive ? '' : '/',
                 'Marker' => $marker,
                 'MaxKeys' => 1000,
@@ -454,7 +454,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return array
      */
-    private function prepareUploadConfig(Config $config)
+    private function prepareUploadConfig(Config $config): array
     {
         $options = [];
 
@@ -478,7 +478,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return string
      */
-    private function normalizeVisibility($visibility)
+    private function normalizeVisibility($visibility): string
     {
         switch ($visibility) {
             case AdapterInterface::VISIBILITY_PUBLIC:
@@ -494,7 +494,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return array
      */
-    private function normalizeFileInfo(array $content)
+    private function normalizeFileInfo(array $content): array
     {
         $path = pathinfo($content['Key']);
 
@@ -515,7 +515,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return string
      */
-    public function getBucket()
+    public function getBucket(): string
     {
         return $this->config['bucket'];
     }
@@ -525,7 +525,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return Client
      */
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }
@@ -535,7 +535,7 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
      *
      * @return string
      */
-    public function getRegion()
+    public function getRegion(): string
     {
         return \Qcloud\Cos\region_map($this->config['region']);
     }
