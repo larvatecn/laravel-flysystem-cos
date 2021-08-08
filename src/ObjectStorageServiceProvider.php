@@ -3,11 +3,11 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\Flysystem\Tencent;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
 use Larva\Flysystem\Tencent\Plugins\Cdn;
 use Larva\Flysystem\Tencent\Plugins\PutRemoteFile;
@@ -26,7 +26,7 @@ class ObjectStorageServiceProvider extends ServiceProvider
      * Perform post-registration booting of services.
      *
      * @return void
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function boot()
     {

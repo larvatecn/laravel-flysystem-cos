@@ -3,7 +3,6 @@
  * This is NOT a freeware, use is subject to license terms
  * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
  * @link http://www.larva.com.cn/
- * @license http://www.larva.com.cn/license/
  */
 
 namespace Larva\Flysystem\Tencent;
@@ -30,12 +29,12 @@ class COSAdapter extends AbstractAdapter implements CanOverwriteFiles
     /**
      * @var Client
      */
-    protected $client;
+    protected Client $client;
 
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * Adapter constructor.
