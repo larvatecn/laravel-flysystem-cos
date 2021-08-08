@@ -2,8 +2,7 @@
 
 This is a Flysystem adapter for the Tencent Cloud COS
 
-[![Build Status](https://travis-ci.com/larvatech/laravel-flysystem-cos.svg?branch=master)](https://travis-ci.com/larvatech/laravel-flysystem-cos)
-
+[![Build Status](https://travis-ci.com/larvatecn/laravel-flysystem-cos.svg?branch=master)](https://travis-ci.com/larvatecn/laravel-flysystem-cos)
 
 ## Installation
 
