@@ -16,7 +16,7 @@ use League\Flysystem\Filesystem;
 use Qcloud\Cos\Client;
 
 /**
- * Class COSServiceProvider
+ * 腾讯云对象存储服务提供者
  *
  * @author Tongle Xu <xutongle@gmail.com>
  */
