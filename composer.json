@@ -8,7 +8,7 @@
     "php": "^8.0",
     "illuminate/support": "^9.0",
     "league/flysystem": "^3.0",
-    "larva/cos-sdk-v5": "^2.5"
+    "overtrue/flysystem-cos": "^5.0"
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5"
