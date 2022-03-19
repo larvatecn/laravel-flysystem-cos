@@ -1,31 +1,22 @@
 # laravel-flysystem-cos
 
-This is a Flysystem adapter for the Tencent Cloud COS
+<p align="center">
+    <a href="https://packagist.org/packages/larva/laravel-flysystem-cos"><img src="https://poser.pugx.org/larva/laravel-flysystem-cos/v/stable" alt="Stable Version"></a>
+    <a href="https://packagist.org/packages/larva/laravel-flysystem-cos"><img src="https://poser.pugx.org/larva/laravel-flysystem-cos/downloads" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/larva/laravel-flysystem-cos"><img src="https://poser.pugx.org/larva/laravel-flysystem-cos/license" alt="License"></a>
+</p>
 
-[![Build Status](https://travis-ci.com/larvatecn/laravel-flysystem-cos.svg?branch=master)](https://travis-ci.com/larvatecn/laravel-flysystem-cos)
+适用于 Laravel 的腾讯云 COS 适配器，完整支持腾讯云 COS 所有方法和操作。
 
-## Installation
+## 安装
 
 ```bash
 composer require larva/laravel-flysystem-cos -vv
 ```
 
-## for Laravel
+修改配置文件: `config/filesystems.php`
 
-This service provider must be registered.
-
-```php
-// config/app.php
-
-'providers' => [
-    '...',
-    Larva\Flysystem\Tencent\ObjectStorageServiceProvider::class,
-];
-```
-
-edit the config file: config/filesystems.php
-
-add config
+添加一个磁盘配置
 
 ```php
 'cos' => [
@@ -54,12 +45,12 @@ add config
 ],
 ```
 
-change default to oss
+修改默认存储驱动
 
 ```php
     'default' => 'cos'
 ```
 
-## Use
+## 使用方法
 
-see [Laravel wiki](https://laravel.com/docs/6.0/filesystem)
+参见 [Laravel wiki](https://laravel.com/docs/9.x/filesystem)
