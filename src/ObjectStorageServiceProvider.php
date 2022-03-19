@@ -1,18 +1,11 @@
 <?php
-/**
- * This is NOT a freeware, use is subject to license terms
- * @copyright Copyright (c) 2010-2099 Jinan Larva Information Technology Co., Ltd.
- * @link http://www.larva.com.cn/
- */
 
 namespace Larva\Flysystem\Tencent;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use Larva\Flysystem\Tencent\Plugins\Cdn;
-use Larva\Flysystem\Tencent\Plugins\PutRemoteFile;
-use Larva\Flysystem\Tencent\Plugins\PutRemoteFileAs;
-use League\Flysystem\Filesystem;
+use League\Flysystem\Filesystem as Flysystem;
+use League\Flysystem\Visibility;
 use Qcloud\Cos\Client;
 
 /**
@@ -26,17 +19,26 @@ class ObjectStorageServiceProvider extends ServiceProvider
      * Perform post-registration booting of services.
      *
      * @return void
-     * @throws BindingResolutionException
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
     {
         $this->app->make('filesystem')->extend('cos', function ($app, $config) {
+            $root = (string)($config['root'] ?? '');
+            $config['directory_separator'] = '/';
+            $visibility = new PortableVisibilityConverter($config['visibility'] ?? Visibility::PUBLIC);
             $client = new Client($config);
-            $flysystem = new Filesystem(new COSAdapter($client, $config), $config);
-            $flysystem->addPlugin(new Cdn());
-            $flysystem->addPlugin(new PutRemoteFile());
-            $flysystem->addPlugin(new PutRemoteFileAs());
-            return $flysystem;
+            $adapter = new TencentCOSAdapter($client, $config['bucket'], $root, $visibility, null, $config['options'] ?? []);
+
+            return new COSAdapter(
+                new Flysystem($adapter, Arr::only($config, [
+                    'directory_visibility',
+                    'disable_asserts',
+                    'temporary_url',
+                    'url',
+                    'visibility',
+                ])), $adapter, $config, $client
+            );
         });
     }
 

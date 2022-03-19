@@ -37,11 +37,9 @@ composer require larva/laravel-flysystem-cos -vv
     'port' => null,
     'domain' => null,
     'proxy' => null,
-    'prefix' => getenv('COS_PREFIX'),//前缀
+    'root' => getenv('COS_PREFIX'),//前缀
     'encrypt'=> null,
     'url'=> null,//CDN URL 
-    'cdn_key' => 'izDMqzld6U4AFQjg',
-    'cdn_sign_type' => 'D'//A/B/C/D
 ],
 ```
 
