@@ -1,30 +1,46 @@
 {
-  "name": "larva/laravel-flysystem-cos",
-  "description": "This is a Flysystem adapter for the Tencent COS.",
-  "keywords": [ "flysystem", "tencent", "cos", "larva" ],
-  "type": "library",
-  "license": "MIT",
-  "require": {
-    "php": "^8.0",
-    "laravel/framework": "^9.0",
-    "league/flysystem": "^3.0",
-    "larva/flysystem-cos": "^1.0"
-  },
-  "autoload": {
-    "psr-4": {
-      "Larva\\Flysystem\\Tencent\\": "src"
-    }
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "2.0-dev"
+    "name": "larva/laravel-flysystem-cos",
+    "description": "This is a Flysystem adapter for the Tencent COS.",
+    "keywords": [
+        "flysystem",
+        "tencent",
+        "cos",
+        "larva"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0",
+        "laravel/framework": "^9.0",
+        "league/flysystem": "^3.0",
+        "larva/flysystem-cos": "^1.0"
     },
-    "laravel": {
-      "providers": [
-        "Larva\\Flysystem\\Tencent\\ObjectStorageServiceProvider"
-      ]
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Larva\\Flysystem\\Tencent\\": "src"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Larva\\Flysystem\\Tencent\\ObjectStorageServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "scripts": {
+        "check-style": "./vendor/bin/php-cs-fixer fix --using-cache=no --diff --dry-run --ansi",
+        "fix-style": "./vendor/bin/php-cs-fixer fix --using-cache=no --ansi"
+    },
+    "scripts-descriptions": {
+        "check-style": "Run style checks (only dry run - no fixing!).",
+        "fix-style": "Run style checks and fix violations."
     }
-  },
-  "minimum-stability": "dev",
-  "prefer-stable": true
 }

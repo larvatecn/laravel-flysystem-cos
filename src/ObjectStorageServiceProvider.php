@@ -37,7 +37,10 @@ class ObjectStorageServiceProvider extends ServiceProvider
                     'temporary_url',
                     'url',
                     'visibility',
-                ])), $adapter, $config, $client
+                ])),
+                $adapter,
+                $config,
+                $client
             );
         });
     }

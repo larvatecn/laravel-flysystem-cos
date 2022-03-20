@@ -40,9 +40,7 @@ composer require larva/laravel-flysystem-cos -vv
     'port' => null,
     'domain' => null,
     'proxy' => null,
-    
     'encrypt'=> null,
-    
 ],
 ```
 
